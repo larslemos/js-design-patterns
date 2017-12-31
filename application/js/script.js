@@ -48,6 +48,27 @@
 		cell4.appendChild(button2)
 	}
 
+	var playerProgressBar = (function() {
+		var playerProgressElement = document.getElementById('player-progress'),
+				playerProgress = 0
+
+		function setPlayerProgress(floatValue) {
+			playerProgress = floatValue
+			playerProgressElement.style.width =  Math.round(floatValue * 10) + '%'
+		}
+
+		return {
+			set: function(value) {
+				setPlayerProgress(value)
+			},
+			get: function() {
+				return playerProgress
+			}
+		}
+
+
+	})();
+
 	var playerController = (function() {
 		var playerTitle = document.getElementById('player-title'),
 		playerProgress = document.getElementById('player-progress'),
@@ -59,11 +80,11 @@
 			interval: null
 		}
 
-		function setPlayerProgress(floatValue) {
-			var increase = Math.round(floatValue * 10) + '%'
-			console.info(increase)
-			playerProgress.style.width = increase
-		}
+		// function setPlayerProgress(floatValue) {
+		// 	var increase = Math.round(floatValue * 10) + '%'
+		// 	console.info(increase)
+		// 	playerProgress.style.width = increase
+		// }
 
 		function playTrack(track) {
 			//Do nothing if it is the same track and player is already playing
@@ -74,18 +95,18 @@
 			if(track !== playerState.track) {
 				playerState.track = track
 				playerTitle.innerHTML = track.title
-				setPlayerProgress(0)
+				playerProgressBar.set(0)
 			}
 
 			playerState.isPlaying = true;
 
-			setPlayerProgress(playerState.progress / playerState.track.duration)
+			playerProgressBar.set(playerState.progress / playerState.track.duration)
 
 			playerState.interval = setInterval(function() {
 				playerState.progress += 0.5
 
 				if (playerState.progress <= playerState.track.duration) {
-					setPlayerProgress(playerState.progress)
+					playerProgressBar.set(playerState.progress)
 				} else {
 					clearInterval(playerState.interval)
 					playerState.interval = null
