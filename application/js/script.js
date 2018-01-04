@@ -89,7 +89,7 @@
 
 			playerProgressBar.set(playerState.progress / playerState.track.duration)
 
-			playerState.interval = setInterval(function() {
+			playerState.interval = Timer.setInterval(0.5, function() {
 				playerState.progress += 0.5
 
 				if (playerState.progress <= playerState.track.duration) {
@@ -101,7 +101,7 @@
 
 					playNextTrack()
 				}
-			}, 500)
+			})
 		}
 
 		function pauseTrack() {
@@ -147,9 +147,9 @@
 
 	playerController.play()
 
-	setTimeout(function() {
+	Timer.setTimeout(2, function() {
 		playerController.pause()
-	}, 2000)
+	})
 	
 
 })()
