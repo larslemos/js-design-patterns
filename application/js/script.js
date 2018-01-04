@@ -23,29 +23,17 @@
 	var i, row, cell1, cell2, cell3, cell4, button1, button1icon, button2, button2icon
 
 	for(i=0; i < tracks.length; i++) {
-		row = tracksContainer.insertRow(i)
-		cell1 = row.insertCell(0)
-		cell2 = row.insertCell(1)
-		cell3 = row.insertCell(2)
-		cell4 = row.insertCell(3)
+		row = D$.create('tr', {parent: tracksContainer}) 
+		cell1 = D$.create('td', {parent: row, text: tracks[i].id})
+		cell2 = D$.create('td', {parent: row, text: tracks[i].title})
+		cell3 = D$.create('td', {parent: row, text: tracks[i].duration})
+		cell4 = D$.create('td', {parent: row }) 
 
-		cell1.innerHTML = tracks[i].id
-		cell2.innerHTML = tracks[i].title
-		cell3.innerHTML = tracks[i].duration
+		button1 = D$.create('button', {parent: cell4, className: 'btn btn-xs btn-danger'})
+		D$.create('span', {parent: button1, className: 'glyphicon glyphicon-remove'})
 
-		button1icon = document.createElement('SPAN')
-		button1icon.className = 'glyphicon glyphicon-remove'
-		button1 = document.createElement('BUTTON')
-		button1.className = 'btn btn-xs btn-danger'
-		button1.appendChild(button1icon)
-		cell4.appendChild(button1)
-
-		button2icon = document.createElement('SPAN')
-		button2icon.className = 'glyphicon glyphicon-play'
-		button2 = document.createElement('BUTTON')
-		button2.className = 'btn btn-xs btn-primary'
-		button2.appendChild(button2icon)
-		cell4.appendChild(button2)
+		button2 = D$.create('button', {parent: cell4, className: 'btn btn-xs btn-primary'})
+		D$.create('span', {parent: button2, className: 'glyphicon glyphicon-play'})
 	}
 
 	var playerProgressBar = (function() {
@@ -65,7 +53,6 @@
 				return playerProgress
 			}
 		}
-
 
 	})();
 
@@ -138,7 +125,7 @@
 		  }
 	 	}
 
-		playerButtonPlay.addEventListener('click', function(ev) { 
+		D$.on(playerButtonPlay, 'click', function(ev) { 
 			ev.preventDefault()
 			if (playerState.isPlaying) {
 				// pauseTrack()
