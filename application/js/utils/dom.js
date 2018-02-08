@@ -1,5 +1,24 @@
 	window.D$ = (function() {
-
+		var elementHandlers = {
+			tr: function(parent) {
+				if(parent != null) return parent.insertRow()
+				 else 	return this['*'](parent,'tr')
+			},
+			td: function(parent) {
+				if(parent != null) return parent.inserCell()
+					else return this['*'](parent, 'td')
+			},
+			text: function(parent) {
+				var textNode = document.createTextNode('New Node inserted here')
+				if(parent != null) parent.appendChild(textNode)
+					return textNode
+			},
+			'*' : function(parent, elementName) {
+				var element = document.createElement(elementName)
+				if(parent != null) parent.appendChild(element)
+					return element
+			}
+		}
 	function createElement(elementName, options) {
 		options = options || {}
 		var element = document.createElement(elementName)
